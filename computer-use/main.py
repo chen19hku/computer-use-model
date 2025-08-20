@@ -12,7 +12,9 @@ import os
 import cua
 import local_computer
 import openai
-
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 
 async def main():
 
@@ -22,7 +24,7 @@ async def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--instructions", dest="instructions",
-        default="Open web browser and go to microsoft.com.",
+        default="Open Chrome web browser, go to imdb.com, search for Zootopia, and find its imdb movie id.",
         help="Instructions to follow")
     parser.add_argument("--model", dest="model",
         default="computer-use-preview")
@@ -34,9 +36,9 @@ async def main():
     args = parser.parse_args()
 
     if args.endpoint == "azure":
-        client = openai.AsyncAzureOpenAI(
-            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
-            api_key=os.environ["AZURE_OPENAI_API_KEY"],
+            client = openai.AsyncAzureOpenAI(
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
             api_version="2025-03-01-preview",
         )
     else:
